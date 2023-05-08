@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} games {% endblock %}</h1>
+    <h1>{% block title %} Games {% endblock %}</h1>
     {% for game in games %}
         <div class='game'>
             <p>{{ game['created'] }}</p>
             <h2>{{ game['title'] }}</h2>
             <p>{{ game['description'] }}</p>
+            <h3>Price: ${{ game['price'] }}</h3>
         </div>
     {% endfor %}
 {% endblock %}

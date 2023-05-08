@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>{% block title %} {% endblock %}- FlaskApp</title>
     <style>
-        .post {
+        .game {
             padding: 10px;
             margin: 5px;
             background-color: #f3f3f3
@@ -20,7 +20,8 @@
 </head>
 <body>
     <nav>
-        <a href="{{ url_for('index') }}">Chill Games Database of AWESOMENESS and CHILLNESS</a>
+        <a href="{{ url_for('index') }}">ChillGames</a>
+        <a href="{{ url_for('addgame') }}">Add Game</a>
         <a href="#">About</a>
     </nav>
     <hr>
