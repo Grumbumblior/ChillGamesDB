@@ -1,27 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Add a New Game {% endblock %}</h1>
+    <h1>{% block title %} Edit "{{ game['title'] }}" {% endblock %}</h1>
     <form method="post">
         <label for="game_id">Game ID</label>
         <br>
         <input type="number" name="game_id"
                placeholder="Game ID"
-               value="{{ request.form['game_id'] }}"></input>
+               value="{{ request.form['game_id'] or game['game_id']}}"></input>
         <br>
 
         <label for="title">Title</label>
         <br>
         <input type="text" name="title"
                placeholder="Game title"
-               value="{{ request.form['title'] }}"></input>
+               value="{{ request.form['title'] or game['title']}}"></input>
         <br>
 
         <label for="genre">Genre</label>
         <br>
         <input type="text" name="genre"
                placeholder="Game genre"
-               value="{{ request.form['genre'] }}"></input>
+               value="{{ request.form['genre'] or game['genre']}}"></input>
         <br>
 
         <label for="description">Game Description</label>
@@ -30,21 +30,21 @@
                   placeholder="Game description"
                   rows="7"
                   cols="60"
-                  >{{ request.form['description'] }}</textarea>
+                  >{{ request.form['description'] or game['description']}}</textarea>
         <br>
 
         <label for="dev_id">Developer ID</label>
         <br>
         <input type="number" name="dev_id"
                placeholder="Developer ID"
-               value="{{ request.form['dev_id'] }}"></input>
+               value="{{ request.form['dev_id'] or game['dev_id']}}"></input>
         <br>
 
         <label for="price">Price</label>
         <br>
         <input type="number" name="price"
                placeholder="Price"
-               value="{{ request.form['price'] }}"></input>
+               value="{{ request.form['price'] or game['price']}}"></input>
         <br>
         <button type="submit">Submit</button>
     </form>

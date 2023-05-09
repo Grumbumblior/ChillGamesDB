@@ -4,10 +4,12 @@
     <h1>{% block title %} Games {% endblock %}</h1>
     {% for game in games %}
         <div class='game'>
+            <!--<p>debug {{ game['game_id'] }}</p>-->
             <p>{{ game['created'] }}</p>
             <h2>{{ game['title'] }}</h2>
             <p>{{ game['description'] }}</p>
             <h3>Price: ${{ game['price'] }}</h3>
+            <a href="{{ url_for('edit', game_id=game['game_id']) }}">Edit</a>
         </div>
     {% endfor %}
 {% endblock %}
