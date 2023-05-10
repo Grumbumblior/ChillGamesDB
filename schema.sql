@@ -8,3 +8,12 @@ CREATE TABLE gametitle (
   dev_id INTEGER DEFAULT NULL,
   price FLOAT DEFAULT NULL
   );
+DROP TABLE IF EXISTS gamedeveloper;
+
+CREATE TABLE gamedeveloper(
+  dev_id INTEGER NOT NULL PRIMARY KEY,
+  dev_name TEXT DEFAULT NULL
+);
+
+SELECT * FROM gamedeveloper JOIN gametitle ON dev_id WHERE game_id = 1;
+

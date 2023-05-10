@@ -1,6 +1,6 @@
 import sqlite3
 
-connection = sqlite3.connect('database.db')
+connection = sqlite3.connect('database.sqlite')
 
 with open('schema.sql') as f:
   connection.executescript(f.read())
@@ -18,6 +18,14 @@ cur.execute(
   (2, 'Stardew Valley', 'Farming Sim',
    "You've inherited your grandfather's old farm plot in Stardew Valley. Armed with hand-me-down tools and a few coins, you set out to begin your new life. Can you learn to live off the land and turn these overgrown fields into a thriving home?",
    2, 14.99))
+
+cur.execute(
+  "INSERT INTO gamedeveloper (dev_id, dev_name) VALUES (?,?)",
+  (1, 'adamgyru'))
+
+cur.execute(
+  "INSERT INTO gamedeveloper (dev_id, dev_name) VALUES (?,?)",
+  (2, 'ConcernedApe'))
 
 connection.commit()
 connection.close()

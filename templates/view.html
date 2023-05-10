@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Game Details {% endblock %}</h1>
+        <div class='game'>
+            <!--<p>debug {{ game['game_id'] }}</p>-->
+            <p>{{ game['created'] }}</p>
+            <h2>{{ game['title'] }}</h2>
+            <h3>Developed by: {{ game['dev_name'] }}</h3>
+            <p>{{ game['description'] }}</p>
+            <h4>Price: ${{ game['price'] }}</h4>
+        </div>
+{% endblock %}
