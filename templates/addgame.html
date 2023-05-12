@@ -3,12 +3,7 @@
 {% block content %}
     <h1>{% block title %} Add a New Game {% endblock %}</h1>
     <form method="post">
-        <label for="game_id">Game ID</label>
-        <br>
-        <input type="number" name="game_id"
-               placeholder="Game ID"
-               value="{{ request.form['game_id'] }}"></input>
-        <br>
+
 
         <label for="title">Title</label>
         <br>
@@ -42,10 +37,8 @@
 
         <label for="price">Price</label>
         <br>
-        <input type="number" placeholder="Price" onchange="setTwoNumberDecimal" min="0" max="999" step="0.01" value="{{ request.form['price'] }}"></input>
-        <!-- <input type="number" 
-               placeholder="Price"
-               value="{{ request.form['price'] }}"></input> -->
+        <input type="number" name="price" placeholder="Price" onchange="setTwoNumberDecimal" min="0" max="999" step="0.01" value="{{ request.form['price'] }}"></input>
+
         <br>
         <button type="submit">Submit</button>
     </form>

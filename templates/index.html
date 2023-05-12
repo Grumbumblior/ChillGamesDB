@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Games {% endblock %}</h1>
+<h2>{% block title %} All Tests {% endblock %}</h2>
+<a href="{{ url_for('test_1')}}">Test 1</a>
+<a href="{{ url_for('test_2')}}">Test 2</a>
+<a href="{{ url_for('test_3')}}">Test 3</a>
+<a href="{{ url_for('final')}}">Final</a>
+
+    <h1>Games</h1>
     {% for game in games %}
         <div class='game'>
             <p>{{ game['created'] }}</p>

@@ -3,12 +3,6 @@
 {% block content %}
     <h1>{% block title %} Edit "{{ game['title'] }}" {% endblock %}</h1>
     <form method="post">
-        <label for="game_id">Game ID</label>
-        <br>
-        <input type="number" name="game_id"
-               placeholder="Game ID"
-               value="{{ request.form['game_id'] or game['game_id']}}"></input>
-        <br>
 
         <label for="title">Title</label>
         <br>

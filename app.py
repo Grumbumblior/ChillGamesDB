@@ -1,4 +1,4 @@
-import sqlite3
+import sqlite3, random
 from flask import Flask, render_template, request, url_for, flash, redirect, abort
 
 app = Flask(__name__)
@@ -11,7 +11,7 @@ def get_db_connection():
 
 def view_game(game_id):
    conn = get_db_connection()
-   game = conn.execute('SELECT a.game_id, a.title, a.genre, a.dev_id, a.price, b.dev_name FROM gamedeveloper AS b JOIN gametitle AS a ON a.dev_id = b.dev_id WHERE game_id = ?',
+   game = conn.execute('SELECT * FROM gamedeveloper AS b JOIN gametitle AS a ON a.dev_id = b.dev_id WHERE game_id = ?',
                         (game_id,)).fetchone()
    conn.close()
    if game is None:
@@ -37,7 +37,6 @@ def index():
 @app.route('/addgame/', methods=('GET', 'POST'))
 def addgame():
   if request.method == 'POST':
-    game_id = request.form['game_id']
     title = request.form['title']
     genre = request.form['genre']
     description = request.form['description']
@@ -66,8 +65,19 @@ def addgame():
       #   dev_id = dev_id + 1
       
       #this works fine, but the price is displayed strangely
-      conn.execute('INSERT INTO gametitle (game_id, title, genre, description, dev_id, price) VALUES (?,?,?,?,?,?)',
-                    (game_id, title, genre, description, dev_id, price))
+      addTable = random.randint(0,4)
+      conn.execute('INSERT INTO gametitle (title, genre, description, dev_id, price) VALUES (?,?,?,?,?)',
+                    (title, genre, description, dev_id, round(float(price), 2)))
+      if addTable == 1:
+        conn.execute('insert into test1 (title,description) values (?,?)', (title, description))
+      elif addTable == 2: 
+        conn.execute('insert into test2 (title,description) values (?,?)', (title, description))
+      elif addTable == 3:
+        conn.execute('insert into test3 (title,description) values (?,?)', (title, description))
+      elif addTable == 4:
+        conn.execute('insert into final (title,description) values (?,?)', (title, description))
+                  
+      
       conn.commit()
       conn.close()
       return redirect(url_for('index'))
@@ -79,7 +89,6 @@ def edit(game_id):
     game = get_game(game_id)
 
     if request.method == 'POST':
-        game_id = request.form['game_id']
         title = request.form['title']
         genre = request.form['genre']
         description = request.form['description']
@@ -97,9 +106,9 @@ def edit(game_id):
 
         else:
             conn = get_db_connection()
-            conn.execute('UPDATE gametitle SET game_id = ?, title = ?, genre = ?, description = ?, dev_id = ?, price = ?'
+            conn.execute('UPDATE gametitle SET title = ?, genre = ?, description = ?, dev_id = ?, price = ?'
                          ' WHERE game_id = ?',
-                         (game_id, title, genre, description, dev_id, price, game_id))
+                         (title, genre, description, dev_id, price, game_id))
             conn.commit()
             conn.close()
             return redirect(url_for('index'))
@@ -127,5 +136,33 @@ def view(game_id):
     # conn.close()
     #return render_template('index.html', game=game)
     return render_template('view.html', game=game)
+
+
+@app.route('/test_1/')
+def test_1():
+    conn = get_db_connection()
+    games = conn.execute('select * from test1').fetchall()
+    conn.close()
+    return render_template('test_1.html', games=games)
+
+@app.route('/test_2/')
+def test_2():
+    conn = get_db_connection()
+    games = conn.execute('select * from test2').fetchall()
+    conn.close()
+    return render_template('test_2.html', games=games)
+
+@app.route('/test_3/')
+def test_3():
+    conn = get_db_connection()
+    games = conn.execute('select * from test3').fetchall()
+    conn.close()
+    return render_template('test_3.html', games=games)
+@app.route('/final/')
+def final():
+    conn = get_db_connection()
+    games = conn.execute('select * from final').fetchall()
+    conn.close()
+    return render_template('final.html', games=games)
 
 
