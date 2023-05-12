@@ -67,7 +67,7 @@ def addgame():
       
       #this works fine, but the price is displayed strangely
       conn.execute('INSERT INTO gametitle (game_id, title, genre, description, dev_id, price) VALUES (?,?,?,?,?,?)',
-                    (game_id, title, genre, description, dev_id, round(float(price), 2)))
+                    (game_id, title, genre, description, dev_id, price))
       conn.commit()
       conn.close()
       return redirect(url_for('index'))
