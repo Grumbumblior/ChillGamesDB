@@ -28,6 +28,9 @@ def get_game(game_id):
         abort(404)
     return game
 
+#def check_legal(num):
+   
+
 @app.route('/')
 def index():
   conn = get_db_connection()
@@ -41,6 +44,20 @@ def nintendo():
   games = conn.execute('SELECT * FROM gamedeveloper AS b JOIN gametitle AS a ON a.dev_id = b.dev_id WHERE dev_name = "Nintendo"').fetchall()
   conn.close()
   return render_template('nintendo.html', games=games)
+
+@app.route('/social/')
+def social():
+  conn = get_db_connection()
+  games = conn.execute('SELECT * FROM gametitle WHERE genre = "Social Sim"').fetchall()
+  conn.close()
+  return render_template('social.html', games=games)
+
+@app.route('/exploration/')
+def exploration():
+  conn = get_db_connection()
+  games = conn.execute('SELECT * FROM gametitle WHERE genre = "Exploration"').fetchall()
+  conn.close()
+  return render_template('exploration.html', games=games)
 
 @app.route('/addgame/', methods=('GET', 'POST'))
 def addgame():
@@ -123,7 +140,7 @@ def edit(game_id):
             conn.execute('UPDATE gametitle SET title = ?, genre = ?, description = ?, dev_id = ?, price = ?'
                          ' WHERE game_id = ?',
                          (title, genre, description, dev_id, price, game_id))
-            conn.execute('INSERT INTO gamedeveloper (dev_id, dev_name) VALUES (?,?)'
+            conn.execute('UPDATE gamedeveloper SET dev_id = ?, dev_name = ?)',
                    (dev_id, dev_name))
             conn.commit()
             conn.close()
