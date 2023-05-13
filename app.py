@@ -1,8 +1,16 @@
 import sqlite3, random
 from flask import Flask, render_template, request, url_for, flash, redirect, abort
 
+# illegal_nums = [1,2,3,4]
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'longRandomString'
+
+# def main():
+#     global illegal_nums
+#     illegal_nums = [1,2,3,4]
+            
+# main()  
 
 def get_db_connection():
   conn = sqlite3.connect('database.sqlite')
@@ -28,7 +36,17 @@ def get_game(game_id):
         abort(404)
     return game
 
-#def check_legal(num):
+# def check_legal(num):
+#   global illegal_nums
+#   for index in range(len(list(illegal_nums))):
+#     if illegal_nums[index] == num:
+#       return False
+#   return True
+
+# def edit_legal(num):
+#    global illegal_nums
+#    illegal_nums.append(num)
+#    return 0
    
 
 @app.route('/')
@@ -75,8 +93,12 @@ def addgame():
       flash('Genre is required')
     elif not price:
       flash('Price is required')
+    # elif check_legal(dev_id):
+    #    flash('Developer ID is already used. Choose another.')
     elif not description:
       flash('Description is required!')
+    elif not dev_id:
+      flash('Developer ID is required!')
     elif not dev_name:
       flash('Developer Name is required!')
     else:
@@ -98,6 +120,7 @@ def addgame():
                     (title, genre, description, dev_id, round(float(price), 3)))
       conn.execute('INSERT INTO gamedeveloper (dev_id, dev_name) VALUES (?,?)',
                    (dev_id, dev_name))
+      # edit_legal(dev_id)
       if addTable == 1:
         conn.execute('insert into test1 (title,description) values (?,?)', (title, description))
       elif addTable == 2: 
@@ -203,4 +226,4 @@ def final():
     conn.close()
     return render_template('final.html', games=games)
 
-
+  
