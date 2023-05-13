@@ -18,6 +18,7 @@ def view_game(game_id):
         abort(404)
    return game
 
+
 def get_game(game_id):
     conn = get_db_connection()
     game = conn.execute('SELECT * FROM gametitle WHERE game_id = ?',
@@ -33,6 +34,13 @@ def index():
   games = conn.execute('SELECT * FROM gametitle').fetchall()
   conn.close()
   return render_template('index.html', games=games)
+
+@app.route('/nintendo/')
+def nintendo():
+  conn = get_db_connection()
+  games = conn.execute('SELECT * FROM gamedeveloper AS b JOIN gametitle AS a ON a.dev_id = b.dev_id WHERE dev_name = "Nintendo"').fetchall()
+  conn.close()
+  return render_template('nintendo.html', games=games)
 
 @app.route('/addgame/', methods=('GET', 'POST'))
 def addgame():
@@ -68,7 +76,7 @@ def addgame():
       #   dev_id = dev_id + 1
       
       #this works fine, but the price is displayed strangely
-      addTable = random.randint(0,4)
+      addTable = random.randint(1,4)
       conn.execute('INSERT INTO gametitle (title, genre, description, dev_id, price) VALUES (?,?,?,?,?)',
                     (title, genre, description, dev_id, round(float(price), 3)))
       conn.execute('INSERT INTO gamedeveloper (dev_id, dev_name) VALUES (?,?)',
