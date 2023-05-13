@@ -42,6 +42,7 @@ def addgame():
     description = request.form['description']
     dev_id = request.form['dev_id']
     price = request.form['price']
+    dev_name = request.form['dev_name']
 
     if not title:
       flash('Title is required!')
@@ -51,6 +52,8 @@ def addgame():
       flash('Price is required')
     elif not description:
       flash('Description is required!')
+    elif not dev_name:
+      flash('Developer Name is required!')
     else:
       conn = get_db_connection()
       #Here I try to auto increment game id and dev id, 
@@ -67,7 +70,9 @@ def addgame():
       #this works fine, but the price is displayed strangely
       addTable = random.randint(0,4)
       conn.execute('INSERT INTO gametitle (title, genre, description, dev_id, price) VALUES (?,?,?,?,?)',
-                    (title, genre, description, dev_id, round(float(price), 2)))
+                    (title, genre, description, dev_id, round(float(price), 3)))
+      conn.execute('INSERT INTO gamedeveloper (dev_id, dev_name) VALUES (?,?)',
+                   (dev_id, dev_name))
       if addTable == 1:
         conn.execute('insert into test1 (title,description) values (?,?)', (title, description))
       elif addTable == 2: 
@@ -93,6 +98,7 @@ def edit(game_id):
         genre = request.form['genre']
         description = request.form['description']
         dev_id = request.form['dev_id']
+        dev_name = request.form['dev_name']
         price = request.form['price']
 
         if not title:
@@ -109,6 +115,8 @@ def edit(game_id):
             conn.execute('UPDATE gametitle SET title = ?, genre = ?, description = ?, dev_id = ?, price = ?'
                          ' WHERE game_id = ?',
                          (title, genre, description, dev_id, price, game_id))
+            conn.execute('INSERT INTO gamedeveloper (dev_id, dev_name) VALUES (?,?)'
+                   (dev_id, dev_name))
             conn.commit()
             conn.close()
             return redirect(url_for('index'))
@@ -119,7 +127,12 @@ def edit(game_id):
 def delete(game_id):
     game = get_game(game_id)
     conn = get_db_connection()
+    conn.execute('DELETE FROM gamedeveloper WHERE dev_id = (SELECT dev_id FROM gametitle WHERE game_id = ?)', (game_id,))
     conn.execute('DELETE FROM gametitle WHERE game_id = ?', (game_id,))
+    conn.execute('DELETE FROM test1 WHERE game_id = ?', (game_id,))
+    conn.execute('DELETE FROM test2 WHERE game_id = ?', (game_id,))
+    conn.execute('DELETE FROM test3 WHERE game_id = ?', (game_id,))
+    conn.execute('DELETE FROM final WHERE game_id = ?', (game_id,))
     conn.commit()
     conn.close()
     flash('"{}" was successfully deleted!'.format(game['title']))

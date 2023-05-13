@@ -35,6 +35,13 @@
                value="{{ request.form['dev_id'] }}"></input>
         <br>
 
+        <label for="dev_name">Developer Name</label>
+        <br>
+        <input type="text" name="dev_name"
+               placeholder="Developer Name"
+               value="{{ request.form['dev_name'] }}"></input>
+        <br>
+
         <label for="price">Price</label>
         <br>
         <input type="number" name="price" placeholder="Price" onchange="setTwoNumberDecimal" min="0" max="999" step="0.01" value="{{ request.form['price'] }}"></input>
