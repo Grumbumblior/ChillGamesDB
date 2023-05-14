@@ -20,12 +20,32 @@ cur.execute(
    2, 14.99))
 
 cur.execute(
+  "INSERT INTO gametitle (game_id, title, genre, description, dev_id, price) VALUES (?,?,?,?,?,?)",
+  (3, 'Animal Crossing', 'Social Sim',
+   'Escape to a deserted island and create your own paradise as you explore, create, and customize in the Animal Crossing: New Horizons game.',
+   3, 59.99))
+
+cur.execute(
+  "INSERT INTO gametitle (game_id, title, genre, description, dev_id, price) VALUES (?,?,?,?,?,?)",
+  (4, 'Legend of Zelda: Breath of the Wild', 'Exploration',
+   "Step into a world of discovery, exploration, and adventure in The Legend of Zelda: Breath of the Wild, a boundary-breaking new game in the acclaimed series.",
+   4, 59.99))
+
+cur.execute(
   "INSERT INTO gamedeveloper (dev_id, dev_name) VALUES (?,?)",
   (1, 'adamgyru'))
 
 cur.execute(
   "INSERT INTO gamedeveloper (dev_id, dev_name) VALUES (?,?)",
   (2, 'ConcernedApe'))
+
+cur.execute(
+  "INSERT INTO gamedeveloper (dev_id, dev_name) VALUES (?,?)",
+  (3, 'Nintendo'))
+
+cur.execute(
+  "INSERT INTO gamedeveloper (dev_id, dev_name) VALUES (?,?)",
+  (4, 'Nintendo'))
 
 connection.commit()
 connection.close()

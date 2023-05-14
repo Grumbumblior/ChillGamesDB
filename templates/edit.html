@@ -3,12 +3,6 @@
 {% block content %}
     <h1>{% block title %} Edit "{{ game['title'] }}" {% endblock %}</h1>
     <form method="post">
-        <label for="game_id">Game ID</label>
-        <br>
-        <input type="number" name="game_id"
-               placeholder="Game ID"
-               value="{{ request.form['game_id'] or game['game_id']}}"></input>
-        <br>
 
         <label for="title">Title</label>
         <br>
@@ -33,11 +27,11 @@
                   >{{ request.form['description'] or game['description']}}</textarea>
         <br>
 
-        <label for="dev_id">Developer ID</label>
+        <label for="dev_name">Developer Name</label>
         <br>
-        <input type="number" name="dev_id"
-               placeholder="Developer ID"
-               value="{{ request.form['dev_id'] or game['dev_id']}}"></input>
+        <input type="text" name="dev_name"
+               placeholder="Developer Name"
+               value="{{ request.form['dev_name'] }}"></input>
         <br>
 
         <label for="price">Price</label>
