@@ -11,7 +11,7 @@ def get_db_connection():
 
 def view_game(game_id):
    conn = get_db_connection()
-   game = conn.execute('SELECT a.game_id, a.title, a.genre, a.dev_id, a.price, b.dev_name FROM gamedeveloper AS b JOIN gametitle AS a ON a.dev_id = b.dev_id WHERE game_id = ?',
+   game = conn.execute('SELECT * FROM gamedeveloper AS b JOIN gametitle AS a ON a.dev_id = b.dev_id WHERE game_id = ?',
                         (game_id,)).fetchone()
    conn.close()
    if game is None:
