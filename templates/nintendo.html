@@ -1,26 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>{% block title %} All Tests {% endblock %}</h2>
-<a href="{{ url_for('test_1')}}">Test 1</a>
-<a href="{{ url_for('test_2')}}">Test 2</a>
-<a href="{{ url_for('test_3')}}">Test 3</a>
-<a href="{{ url_for('final')}}">Final</a>
-<br>
-<a href="{{ url_for('nintendo')}}">Nintendo Games</a>
-<a href="{{ url_for('social')}}">Social Sims</a>
-<a href="{{ url_for('exploration')}}">Exploration Games</a>
-
-    <h1>Nintendo Games</h1>
-    {% for game in games %}
-        <div class='game'>
-            <p>{{ game['created'] }}</p>
-            <h2>{{ game['title'] }}</h2>
-            <p>{{ game['description'] }}</p>
-            <h3>Price: ${{ game['price'] }}</h3>
-            <a href="{{ url_for('edit', game_id=game['game_id']) }}">Edit</a>
-            <!-- Do whatever you want with the view link -->
-            <a href="{{ url_for('view', game_id=game['game_id']) }}">View</a>
-        </div>
-    {% endfor %}
+<h1>{% block title %}Nintendo Games {% endblock %}</h1>
+{% for game in games %}
+<div class='game'>
+    <p>{{ game['created'] }}</p>
+    <h2>{{ game['title'] }}</h2>
+    <p>{{ game['description'] }}</p>
+    <h3>Price: ${{ game['price'] }}</h3>
+    <a href="{{ url_for('edit', game_id=game['game_id']) }}">Edit</a>
+    <!-- Do whatever you want with the view link -->
+    <a href="{{ url_for('view', game_id=game['game_id']) }}">View</a>
+</div>
+{% endfor %}
 {% endblock %}

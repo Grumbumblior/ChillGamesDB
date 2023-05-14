@@ -1,32 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>{% block title %} {% endblock %}- FlaskApp</title>
     <style>
         .game {
-            padding: 10px;
-            margin: 5px;
-            background-color: #f3f3f3
+            padding: 2em;
+            margin: 3em;
+            background-color: #79c9ec;
+            border-radius: 50%;
+            text-align: center;
+        }
+
+        .delete{
+            background-color: #fb5b20;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: .5em;
+        }
+
+        a {
+            font-size: 1.2em;
+            padding: .5em;
+            color: black;
+            border-radius: 5%;
+            background-color: pink;
+            text-decoration: none;
+        }
+
+        a:hover {
+            background-color: rgb(200, 127, 139);
         }
 
         nav a {
-            color: #d64161;
+            color: #cd7700;
+            background-color: initial;
             font-size: 3em;
             margin-left: 50px;
             text-decoration: none;
         }
+
+        nav a:hover {
+            background-color: initial;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 1.5em;
+            padding-top: 1em;
+        }
+        input, textarea{
+            margin-bottom: 1.7em;
+            font-size: 1em;
+        }
+        
     </style>
 </head>
+
 <body>
     <nav>
         <a href="{{ url_for('index') }}">ChillGames</a>
         <a href="{{ url_for('addgame') }}">Add Game</a>
-        <a href="#">About</a>
     </nav>
     <hr>
+    <h2>All Tests</h2>
+    <a href="{{ url_for('test_1')}}">Test 1</a>
+    <a href="{{ url_for('test_2')}}">Test 2</a>
+    <a href="{{ url_for('test_3')}}">Test 3</a>
+    <a href="{{ url_for('final')}}">Final</a>
+    <br>
+    <h2>Game Types</h2>
+    <a href="{{ url_for('nintendo')}}">Nintendo Games</a>
+    <a href="{{ url_for('social')}}">Social Sims</a>
+    <a href="{{ url_for('exploration')}}">Exploration Games</a>
     <div class="content">
         {% block content %} {% endblock %}
     </div>
 </body>
+
 </html>
