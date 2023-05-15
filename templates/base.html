@@ -57,6 +57,14 @@
             font-size: 1.5em;
             padding-top: 1em;
         }
+
+        .alert {
+            color: red;
+            font-weight: bold;
+            font-size: 2em;
+            text-align: center;
+
+        }
         input, textarea{
             margin-bottom: 1.7em;
             font-size: 1em;
@@ -71,6 +79,7 @@
         <a href="{{ url_for('addgame') }}">Add Game</a>
     </nav>
     <hr>
+    </div>
     <h2>All Tests</h2>
     <a href="{{ url_for('test_1')}}">Test 1</a>
     <a href="{{ url_for('test_2')}}">Test 2</a>
@@ -82,7 +91,11 @@
     <a href="{{ url_for('social')}}">Social Sims</a>
     <a href="{{ url_for('exploration')}}">Exploration Games</a>
     <div class="content">
-        {% block content %} {% endblock %}
+    <br>
+    {% for message in get_flashed_messages() %}
+    <div class="alert">{{ message }}</div>
+    {% endfor %}
+    {% block content %} {% endblock %}
     </div>
 </body>
 

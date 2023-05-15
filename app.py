@@ -1,14 +1,13 @@
-import sqlite3, random
+import sqlite3, random, pickle
 from flask import Flask, render_template, request, url_for, flash, redirect, abort
 
-# illegal_nums = [1,2,3,4]
+illegal_nums = [1,2,3,4]
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'longRandomString'
 
 # def main():
-#     global illegal_nums
-#     illegal_nums = [1,2,3,4]
+#     print('wassap')
             
 # main()  
 
@@ -36,17 +35,23 @@ def get_game(game_id):
         abort(404)
     return game
 
-# def check_legal(num):
-#   global illegal_nums
-#   for index in range(len(list(illegal_nums))):
-#     if illegal_nums[index] == num:
-#       return False
-#   return True
+def check_legal(num):
+  print(num)
+  global illegal_nums
+  for index in range(len(illegal_nums)):
+    print(illegal_nums[index])
+    if illegal_nums[index] == num:
+      print(False)
+      return False
+  print(True)
+  return True
 
-# def edit_legal(num):
-#    global illegal_nums
-#    illegal_nums.append(num)
-#    return 0
+def edit_legal(num):
+   global illegal_nums
+   illegal_nums.append(num)
+   with open("illegalfile.pk", 'wb') as file:
+        pickle.dump(illegal_nums, file)
+   return
    
 
 @app.route('/')
@@ -79,6 +84,9 @@ def exploration():
 
 @app.route('/addgame/', methods=('GET', 'POST'))
 def addgame():
+  global illegal_nums
+  with open('illegalfile.pk', 'rb') as file:
+    illegal_nums = pickle.load(file)
   if request.method == 'POST':
     title = request.form['title']
     genre = request.form['genre']
@@ -93,8 +101,8 @@ def addgame():
       flash('Genre is required')
     elif not price:
       flash('Price is required')
-    # elif check_legal(dev_id):
-    #    flash('Developer ID is already used. Choose another.')
+    elif not check_legal(int(dev_id)):
+       flash('Developer ID is already used. Please choose another. Currently used IDs are: ' + str(illegal_nums)[1:-1])
     elif not description:
       flash('Description is required!')
     elif not dev_id:
@@ -120,7 +128,7 @@ def addgame():
                     (title, genre, description, dev_id, round(float(price), 3)))
       conn.execute('INSERT INTO gamedeveloper (dev_id, dev_name) VALUES (?,?)',
                    (dev_id, dev_name))
-      # edit_legal(dev_id)
+      edit_legal(int(dev_id))
       if addTable == 1:
         conn.execute('insert into test1 (title,description) values (?,?)', (title, description))
       elif addTable == 2: 
@@ -176,11 +184,12 @@ def delete(game_id):
     game = get_game(game_id)
     conn = get_db_connection()
     conn.execute('DELETE FROM gamedeveloper WHERE dev_id = (SELECT dev_id FROM gametitle WHERE game_id = ?)', (game_id,))
+    print('deleting' + str(game_id))
+    conn.execute('DELETE FROM test1 WHERE title = (SELECT title FROM gametitle WHERE game_id = ?)', (game_id,))
+    conn.execute('DELETE FROM test2 WHERE title = (SELECT title FROM gametitle WHERE game_id = ?)', (game_id,))
+    conn.execute('DELETE FROM test3 WHERE title = (SELECT title FROM gametitle WHERE game_id = ?)', (game_id,))
+    conn.execute('DELETE FROM final WHERE title = (SELECT title FROM gametitle WHERE game_id = ?)', (game_id,))
     conn.execute('DELETE FROM gametitle WHERE game_id = ?', (game_id,))
-    conn.execute('DELETE FROM test1 WHERE game_id = ?', (game_id,))
-    conn.execute('DELETE FROM test2 WHERE game_id = ?', (game_id,))
-    conn.execute('DELETE FROM test3 WHERE game_id = ?', (game_id,))
-    conn.execute('DELETE FROM final WHERE game_id = ?', (game_id,))
     conn.commit()
     conn.close()
     flash('"{}" was successfully deleted!'.format(game['title']))

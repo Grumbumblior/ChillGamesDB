@@ -18,7 +18,7 @@ CREATE TABLE gamedeveloper(
 drop table if exists test1;
 
 create table test1(
-    game_id integer primary key autoincrement,
+    id integer primary key autoincrement,
     title text not null,
     description text not null
 );
@@ -26,7 +26,7 @@ create table test1(
 drop table if exists test2;
 
 create table test2(
-    game_id integer primary key autoincrement,
+    id integer primary key autoincrement,
     title text not null,
     description text not null
 );
@@ -34,7 +34,7 @@ create table test2(
 drop table if exists test3;
 
 create table test3(
-    game_id integer primary key autoincrement,
+    id integer primary key autoincrement,
     title text not null,
     description text not null
 );
@@ -42,7 +42,7 @@ create table test3(
 drop table if exists final;
 
 create table final(
-    game_id integer primary key autoincrement,
+    id integer primary key autoincrement,
     title text not null,
     description text not null
 );
