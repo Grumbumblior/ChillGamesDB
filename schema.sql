@@ -46,4 +46,3 @@ create table final(
     title text not null,
     description text not null
 );
-

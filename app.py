@@ -52,6 +52,7 @@ def edit_legal(num):
    with open("illegalfile.pk", 'wb') as file:
         pickle.dump(illegal_nums, file)
    return
+
    
 
 @app.route('/')
@@ -172,8 +173,8 @@ def edit(game_id):
             conn.execute('UPDATE gametitle SET title = ?, genre = ?, description = ?, price = ?'
                          ' WHERE game_id = ?',
                          (title, genre, description, price, game_id))
-            conn.execute('UPDATE gamedeveloper SET dev_name = ?',
-                   (dev_name,))
+            conn.execute('UPDATE gamedeveloper SET dev_name = ? WHERE dev_id = (SELECT dev_id FROM gametitle WHERE game_id = ?)',
+                   (dev_name, game_id))
             conn.commit()
             conn.close()
             return redirect(url_for('index'))
