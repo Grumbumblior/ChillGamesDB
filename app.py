@@ -153,7 +153,6 @@ def edit(game_id):
         title = request.form['title']
         genre = request.form['genre']
         description = request.form['description']
-        dev_id = request.form['dev_id']
         dev_name = request.form['dev_name']
         price = request.form['price']
 
@@ -163,16 +162,18 @@ def edit(game_id):
           flash('Genre is required')
         elif not price:
           flash('Price is required')
+        elif not dev_name:
+           flash('Developer name is required')
         elif not description:
           flash('Description is required!')
 
         else:
             conn = get_db_connection()
-            conn.execute('UPDATE gametitle SET title = ?, genre = ?, description = ?, dev_id = ?, price = ?'
+            conn.execute('UPDATE gametitle SET title = ?, genre = ?, description = ?, price = ?'
                          ' WHERE game_id = ?',
-                         (title, genre, description, dev_id, price, game_id))
-            conn.execute('UPDATE gamedeveloper SET dev_id = ?, dev_name = ?)',
-                   (dev_id, dev_name))
+                         (title, genre, description, price, game_id))
+            conn.execute('UPDATE gamedeveloper SET dev_name = ?',
+                   (dev_name,))
             conn.commit()
             conn.close()
             return redirect(url_for('index'))
